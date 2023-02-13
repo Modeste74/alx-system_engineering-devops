@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -empty -primtf "%f\n"
+find . -empty -printf "%f\n"
