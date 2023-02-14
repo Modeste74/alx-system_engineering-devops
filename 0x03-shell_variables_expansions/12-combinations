@@ -1,2 +1,2 @@
 #!/bin/bash
-echo {a..z} ?? ["^oO"] | wc -l
+echo -ne $(({a..z} ?? ["^oO"])) "\n" 
