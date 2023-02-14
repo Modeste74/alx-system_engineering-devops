@@ -1,2 +1,2 @@
 #!/bin/bash
-echo -ne $(($BREATH**$LOVE)) "\n
+echo -ne $(($BREATH**$LOVE))"\n"
