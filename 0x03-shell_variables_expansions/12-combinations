@@ -1,2 +1,2 @@
 #!/bin/bash
-echo -ne $(({a..z} ?? ["^oO"])) "\n" 
+echo -ne $(({a..z} ?? ["^oo"])) "\n" 
