@@ -1,2 +1,2 @@
 #!/bin/bash
-echo -ne $(({a..z} ?? ["^oo"])) "\n" 
+echo $(({a..z}{a..z})) ["^oo"] | tr ' ' '\n'
