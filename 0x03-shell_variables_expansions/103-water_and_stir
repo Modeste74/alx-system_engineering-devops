@@ -1,2 +1,2 @@
 #!/bin/bash
-echo $(( $(echo $WATER | tr water0123456789 bestcholine) + $(echo $STIR | tr stir0123456789 bestcholine) )) | tr bestcholine0123456789 water
+echo $(( $(echo $WATER | tr water0123456789 bestcholine) + $(echo $STIR | tr stir0123456789 bestcholine) )) | tr bestcholine0123456789 
