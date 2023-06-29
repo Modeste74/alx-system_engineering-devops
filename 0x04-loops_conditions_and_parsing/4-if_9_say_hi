@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# makes use of while and if to print
+count=1
+while [ $count -le 9 ]
+do
+    if [ $count -eq 9 ]
+    then
+	echo "Best School"
+        echo "Hi"
+    fi
+    echo "Best School"
+    count=$((count+1))
+done
