@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-# uses until loop to print
-count=1
-until [ $count -gt 10 ]
-do
-	echo "Best School"
-	count=$((count+1))
-done
