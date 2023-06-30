@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# display a text indefinantely and changes when SIGTERM signal is received
+
+trap 'echo "I am invincible!!!"' SIGTERM
+while true
+do
+	echo "To infinity and beyond"
+	sleep 2
+done
