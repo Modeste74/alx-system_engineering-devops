@@ -5,6 +5,6 @@ while IFS=':' read -r user_n pcode uid gid info home commnd
 do
 	echo "The user $user_n is part of the $gid gang,"\
 		"lives in the $home and rides $commnd."\
-		"$uid place is protected by the passcode $pcode,"\
+		"$uid's place is protected by the passcode $pcode,"\
 		"more info about the user here: $info"
 	done < /etc/passwd
