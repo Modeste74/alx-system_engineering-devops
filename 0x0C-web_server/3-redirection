@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# installs nginx and confiures it
+sudo apt update
+sudo apt -y upgrade
+sudo apt -y install nginx
+sudo ufw allow 'Nginx HTTP'
+sudo chown -R "$USER" /var/www/
+echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+sudo sed i 'listen 80 default_server/a rewrite ^/redirect_me https://www.youtube.com;' /etc/nginx/sites-available/default
+sudo service nginx restart
