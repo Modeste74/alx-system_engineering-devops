@@ -11,8 +11,8 @@ if [ $# -lt 3 ]; then
 fi
 if [ $# -ge 4 ]; then
 	scp_option="-o StrictHostKeyChecking=no -i $ssh_key"
-	scp "$scp_option" "$path_to_file" "$usr_name"@"$ip_addr":~/
+	scp "$scp_option" "$path_to_file" "$usr_name@$ip_addr":~/
 else
 	scp_option="-o StrictHostKeyChecking=no"
-	scp "$scp_option" "$path_to_file" "$usr_name"@"$ip_addr":~/
+	scp "$scp_option" "$path_to_file" "$usr_name@$ip_addr":~/
 fi
