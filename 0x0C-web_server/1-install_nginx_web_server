@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # installs nginx and confiures it
-apt update
-apt -y upgrade
-apt -y install nginx
-ufw allow 'Nginx HTTP'
+sudo apt update
+sudo apt -y upgrade
+sudo apt -y install nginx
+sudo ufw allow 'Nginx HTTP'
 chown -R "$USER" /var/www/
 echo 'Hello World!' > /var/www/html/index.html
-service nginx restart
+sudo service nginx restart
