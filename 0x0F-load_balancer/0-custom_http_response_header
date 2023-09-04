@@ -9,5 +9,5 @@ echo 'Hello World!' > /var/www/html/index.nginx-debian.html
 sudo sed -i 'listen 80 default_server/a rewrite ^/redirect_me https://www.youtube.com;' /etc/nginx/sites-available/default
 echo "Ceci n'est pas une page" > /var/www/html/error_404.html
 sed -i "55i error_page 404 /error_404.html;" /etc/nginx/sites-available/default
-sed -i '54i\\tadd_header X-Served-By \$hostname;' /etc/nginx/sites-available/default
+sed -i "54i\\tadd_header X-Served-By \$hostname;" /etc/nginx/sites-available/default
 sudo service nginx restart
