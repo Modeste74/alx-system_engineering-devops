@@ -2,11 +2,11 @@
 class { 'nginx':
   ensure => 'installed',
 }
-file{ '/etc/nginx/sites-available/default':
+file { '/etc/nginx/sites-available/default':
   ensure => present,
   notify => Exec['add_custom_header'],
 }
-exec {'add_custom_header':
+exec { 'add_custom_header':
   command     => "sed -i '54i\\tadd_header X-Served-By \$hostname;' /etc/nginx/sites-available/default",
   path        => '/bin:/usr/bin',
   refreshonly => true,
