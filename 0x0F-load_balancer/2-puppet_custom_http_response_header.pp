@@ -1,21 +1,19 @@
+# configure nginx
 package { 'nginx':
-  ensure => installed,
+  ensure => 'installed',
 }
 
 file { '/etc/nginx/sites-available/default':
-  ensure  => present,
-  content => template('nginx/custom_header.erb'),
-  require => Package['nginx'],
+  content => template('path/to/nginx_config.erb'),
+  notify  => Service['nginx'],
 }
 
 service { 'nginx':
-  ensure  => running,
-  enable  => true,
-  require => File['/etc/nginx/sites-available/default'],
+  ensure => 'running',
+  enable => true,
 }
 
-# Create a custom header template
-file { '/etc/nginx/custom_header.erb':
-  ensure   => present,
-  $content => "add_header X-Served-By ${hostname};",
+exec { 'add_custom_header':
+  command => "sed -i '/listen 80 default_server;/a add_header X-Served-By ${hostname};' /etc/nginx/sites-available/default",
+  require => File['/etc/nginx/sites-available/default'],
 }
