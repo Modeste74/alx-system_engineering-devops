@@ -16,6 +16,6 @@ service { 'nginx':
 
 # Create a custom header template
 file { '/etc/nginx/custom_header.erb':
-  ensure  => present,
-  content => "add_header X-Served-By ${hostname};",
+  ensure   => present,
+  $content => "add_header X-Served-By ${hostname};",
 }
