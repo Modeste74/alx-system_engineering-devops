@@ -2,7 +2,7 @@
 class { 'nginx':
   ensure => 'installed',
 }
-file{ 'etc/nginx/sites-available/default':
+file{ '/etc/nginx/sites-available/default':
   ensure => present,
   notify => Exec['add_custom_header'],
 }
