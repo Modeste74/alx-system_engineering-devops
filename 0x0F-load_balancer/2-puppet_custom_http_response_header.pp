@@ -1,29 +1,21 @@
-# configure nginx by creating a custom HTTP header response
-exec { 'update':
-  command  => 'sudo apt-get update',
-  provider => shell,
+package { 'nginx':
+  ensure => installed,
 }
-exec { 'upgrade':
-  command  => 'sudo apt-get -y upgrade',
-  provider => shell,
-}
-exec { 'install_nginx':
-  provider => shell,
-  command  => '/usr/bin/apt-get -y install nginx',
-}
+
 file { '/etc/nginx/sites-available/default':
-  ensure => present,
-  notify => Exec['add_custom_header'],
+  ensure  => present,
+  content => template('nginx/custom_header.erb'),
+  require => Package['nginx'],
 }
-exec { 'add_custom_header':
-  command     => "sudo sed -i '/listen 80 default_server;/a add_header X-Served-By $HOSTNAME;' /etc/nginx/sites-available/default",
-  path        => '/bin:/usr/bin',
-  refreshonly => true,
-  subscribe   => File['/etc/nginx/sites-available/default'],
+
+service { 'nginx':
+  ensure  => running,
+  enable  => true,
+  require => File['/etc/nginx/sites-available/default'],
 }
-exec { 'restart_nginx':
-  command     => 'sudo service nginx restart',
-  provider    => shell,
-  refreshonly => true,
-  subscribe   => Exec['add_custom_header'],
+
+# Create a custom header template
+file { '/etc/nginx/custom_header.erb':
+  ensure  => present,
+  content => "add_header X-Served-By ${hostname};",
 }
