@@ -2,21 +2,19 @@
 class { 'nginx':
   ensure => 'installed',
 }
-file { '/etc/nginx/sites-available/default':
-  ensure  => 'present',
-  content => '
-    server {
-      listen 80;
-      server_name_;
-
-      location /{
-        add_header X-Served-By $hostname;
-      }
-    }
-  '
-  notify  => Service['nginx'],
+file{ 'etc/nginx/sites-available/default':
+  ensure => present,
+  notify => Exec['add_custom_header'],
 }
-exec { 'command':
-  command  => 'service nginx restart',
-  provider => shell,
+exec {'add_custom_header':
+  command     => "sed -i '54i\\tadd_header X-Served-By \$hostname;' /etc/nginx/sites-available/default",
+  path        => '/bin:/usr/bin',
+  refreshonly => true,
+  subscribe   => File['/etc/nginx/sites-available/default'],
+}
+exec { 'restart_nginx':
+  command     => 'service nginx restart',
+  provider    => 'shell',
+  refreshonly => true,
+  subscribe   => Exec['add_custom_header'],
 }
