@@ -2,9 +2,10 @@
 # updates and installs the haproxy whilst also configuring it
 sudo apt update
 sudo apt -y upgrade
-sudo apt -y install haproxy
-haproxy_config="/etc/haproxy/haproxy.cfg"
-haproxy_content='
+sudo apt-get install --no-install-recommends software-properties-common
+sudo add-apt-repository ppa:vbernat/haproxy-2.0
+sudo apt-get -y install haproxy=2.0.\*
+sudo bash -c "echo '
 frontend web-frontend
 	bind *:80
 	mode http
@@ -13,6 +14,5 @@ backend web-backend
 	balance roundrobin
 	server 267457-web-01 54.90.0.245:80 check
 	server 267457-web-02 54.145.84.49:80 check
-'
-echo "$haproxy_content" | sudo tee "$haproxy_config" > /dev/null
+' >> /etc/haproxy/haproxy.cfg"
 sudo service haproxy restart
