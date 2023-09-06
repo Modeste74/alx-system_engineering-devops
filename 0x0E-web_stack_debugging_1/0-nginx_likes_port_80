@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# configures nginx to listen to port
+
+apt update
+apt -y install nginx
+echo 'server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm;
+    server_name _;
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}' | sudo tee /etc/nginx/sites-available/default
+sudo service nginx restart
