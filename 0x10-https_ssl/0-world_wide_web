@@ -1,26 +1,23 @@
 #!/usr/bin/env bash
-# This script provides information about subdomains and their DNS records
+# Define function to display subdomain information
+display_info() {
+    local domain="$1"
+    local subdomain="$2"
 
-declare -a subdomains=("www" "lb-01" "web-01" "web-02")
-
-domain_info() {
-    local query_domain="$1"
-    local query_subdomain="$2"
-
-    perform_query() {
-        local sub="$1"
-        local result
-        result=$(dig "$sub.$query_domain" +short)
-        echo "The subdomain $sub is a $(echo $result | awk '{print $4}') record and points to $result"
-    }
-
-    if [ -z "$query_subdomain" ]; then
-        for sub in "${subdomains[@]}"; do
-            perform_query "$sub"
-        done
+    if [ -z "$subdomain" ]; then
+        subdomains=("www" "lb-01" "web-01" "web-02")
     else
-        perform_query "$query_subdomain"
+        subdomains=("$subdomain")
     fi
-}
 
-domain_info "$1" "$2"
+    for sub in "${subdomains[@]}"; do
+        record_type=$(dig +short -t CNAME "$sub.$domain" | awk -F. '{print $2}')
+        destination=$(dig +short "$sub.$domain")
+        echo "The subdomain $sub is a $record_type record and points to $destination"
+    done
+}
+# Extract domain and subdomain (if provided)
+domain="$1"
+subdomain="$2"
+# Call display_info function
+display_info "$domain" "$subdomain"
