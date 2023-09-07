@@ -1,28 +1,23 @@
-#!/usr/bin/env bash
-# Define function to display subdomain information
-display_info() {
-    local domain="$1"
-    local subdomain="$2"
+#!/bin/bash
 
-    if [ -z "$subdomain" ]; then
-        subdomains=("www" "lb-01" "web-01" "web-02")
+domain_info() {
+    subdomains=("www" "lb-01" "web-01" "web-02")
+
+    query_domain="$1"
+    query_subdomain="$2"
+
+    perform_query() {
+        local sub="$1"
+        dig "$sub.$query_domain" | grep -A1 'ANSWER SECTION:' | tail -n1 | awk -v sub="$sub" -v dom="${query_domain%.*}" '{print "The subdomain " dom " is a " $4 " record and points to " $5}'
+    }
+
+    if [ -z "$query_subdomain" ]; then
+        for sub in "${subdomains[@]}"; do
+            perform_query "$sub"
+        done
     else
-        subdomains=("$subdomain")
+        perform_query "$query_subdomain"
     fi
-
-    for sub in "${subdomains[@]}"; do
-        record_type=$(dig +short -t CNAME "$sub.$domain" | awk -F. '{print $2}')
-        destination=$(dig +short "$sub.$domain")
-
-        if [ -z "$record_type" ]; then
-            record_type="A"
-        fi
-
-        echo "The subdomain $sub is a $record_type record and points to $destination"
-    done
 }
-# Extract domain and subdomain (if provided)
-domain="$1"
-subdomain="$2"
-# Call display_info function
-display_info "$domain" "$subdomain"
+
+domain_info "$1" "$2"
