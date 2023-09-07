@@ -2,21 +2,18 @@
 # Define function to display subdomain information
 domain_info () {
     local domain="$1"
-    local subdomain="${2:-www}"
-    dig_result=$(dig "$subdomain.$domain" +short | grep -A1 'ANSWER SECTION:')
+    local sub="$2"
+    subdomains=("www" "lb-01" "web-01" "web-02")
 
-    if [ -z "$dig_result" ]; then
-        echo "No record found for $subdomain.$domain"
-    else
-        record_type=$(echo "$dig_result" | awk -F. '{print $2}')
-        destination=$(echo "$dig_result")
-
-        echo "The subdomain $subdomain is a ${record_type:-A} record and points to ${destination:-[NOT FOUND]}"
+    if [ -n "$sub" ]; then
+        subdomains=("$sub")
     fi
-}
 
-if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
-    echo "Usage: $0 domain [subdomain]"
-    exit 1
-fi
+    for sub in "${subdomains[@]}"; do
+        local result=$(dig "$sub.$domain" | grep -A1 'ANSWER SECTION:' | tail -n1)
+        local subdomain=$(awk '{split($0, DOMAIN, "."); print "The subdomain " DOMAIN[1]}' <<< "$sub.$domain")
+        local record=$(awk '{print " is a " $4 " record and points to " $5}' <<< "$result")
+        echo "$subdomain$record"
+    done
+}
 domain_info "$1" "$2"
