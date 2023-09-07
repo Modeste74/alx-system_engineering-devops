@@ -1,14 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# This script provides information about subdomains and their DNS records
+
+declare -a subdomains=("www" "lb-01" "web-01" "web-02")
 
 domain_info() {
-    subdomains=("www" "lb-01" "web-01" "web-02")
-
-    query_domain="$1"
-    query_subdomain="$2"
+    local query_domain="$1"
+    local query_subdomain="$2"
 
     perform_query() {
         local sub="$1"
-        dig "$sub.$query_domain" | grep -A1 'ANSWER SECTION:' | tail -n1 | awk -v sub="$sub" -v dom="${query_domain%.*}" '{print "The subdomain " dom " is a " $4 " record and points to " $5}'
+        local result
+        result=$(dig "$sub.$query_domain" +short)
+        echo "The subdomain $sub is a $(echo $result | awk '{print $4}') record and points to $result"
     }
 
     if [ -z "$query_subdomain" ]; then
