@@ -35,14 +35,15 @@ defaults
 
 frontend web-frontend
 	bind *:80
-	mode http
+        http-request set-header X-Forwarded-Proto http
+#	bind *:443 ssl crt /etc/letsencrypt/live/ciiramodeste.tech.pem
+#       reqadd X-Forwarded-Proto:\ https
 	default_backend web-backend
 frontend www-https
-	bind *:443 ssl crt /etc/letsencrypt/live/www.ciiramodeste.tech/fullchain.pem
-	reqadd X-Forwarded-Proto:\ https
+	bind *:443 ssl crt /etc/haproxy/certs/ciiramodeste.tech.pem
+	http-request set-header X-Forwarded-Proto https
 	default_backend web-backend
 backend web-backend
 	balance roundrobin
 	server 267457-web-01 54.90.0.245:80 check
 	server 267457-web-02 54.145.84.49:80 check
-
