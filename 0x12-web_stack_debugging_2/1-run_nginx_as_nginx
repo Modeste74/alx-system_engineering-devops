@@ -16,4 +16,4 @@ chown nginx /etc/nginx/nginx.conf
 sed -i 's/listen\s*80;/listen 8080;/' /etc/nginx/sites-available/default
 pkill apache2
 # Restart nginx for changes to take effect
--u nginx service nginx restart
+su -u nginx service nginx restart
