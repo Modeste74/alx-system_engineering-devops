@@ -14,6 +14,6 @@ chown -R nginx:nginx /var/log/nginx /var/lib/nginx
 
 # Change the listening port in the default site configuration
 sed -i 's/listen\s*80;/listen 8080;/' /etc/nginx/sites-available/default
-
+pkill apache2
 # Restart nginx for changes to take effect
 service nginx restart
