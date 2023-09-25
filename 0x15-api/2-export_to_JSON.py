@@ -6,6 +6,7 @@ import json
 
 
 def export_to_json(user_id, username, tasks):
+    """exports data in json format"""
     data = {
         f"{user_id}": [
             {
@@ -30,13 +31,4 @@ if __name__ == "__main__":
     users_data = user_response.json()
     todos_data = todos_response.json()
     employee_name = users_data["name"]
-    """total_tasks = len(todos_data)
-    completed_task = []
-    for task in todos_data:
-        if task["completed"]:
-            completed_task.append(task["title"])
-    print("Employee {} is done with tasks({}/{}):"
-          .format(employee_name, len(completed_task), total_tasks))
-    for task in completed_task:
-        print("\t{}".format(task))"""
     export_to_json(user_id, employee_name, todos_data)

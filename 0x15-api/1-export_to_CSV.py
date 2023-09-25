@@ -6,6 +6,7 @@ import csv
 
 
 def export_to_csv(user_id, user_name, tasks):
+    """exports the data to csv format"""
     file_name = f"{user_id}.csv"
     with open(file_name, 'w', newline='') as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
