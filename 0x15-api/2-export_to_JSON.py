@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """uses api to retrieve and return data"""
+import json
 import requests
 from sys import argv
-import json
 
 
 def export_to_json(user_id, username, tasks):
