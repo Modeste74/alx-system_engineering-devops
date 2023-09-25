@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """uses api to retrieve and return data"""
+import csv
 import requests
 from sys import argv
-import csv
 
 
 def export_to_csv(user_id, user_name, tasks):
