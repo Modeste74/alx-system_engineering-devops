@@ -19,7 +19,7 @@ if __name__ == "__main__":
     user_id = argv[1]
     base_url = "https://jsonplaceholder.typicode.com"
     user_url = f"{base_url}/users/{user_id}"
-    todos_url = f"{base_url}/todos?userId={user_id}"
+    todos_url = f"{user_url}/todos"
     user_response = requests.get(user_url)
     todos_response = requests.get(todos_url)
     users_data = user_response.json()
