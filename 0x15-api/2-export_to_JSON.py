@@ -10,8 +10,8 @@ def export_to_json(user_id, username, tasks):
     data = {
         f"{user_id}": [
             {
-                "task": task["title"],
-                "completed": task["completed"],
+                "task": task.get("title"),
+                "completed": task.get("completed"),
                 "username": username
                 } for task in tasks
             ]
@@ -30,5 +30,5 @@ if __name__ == "__main__":
     todos_response = requests.get(todos_url)
     users_data = user_response.json()
     todos_data = todos_response.json()
-    employee_name = users_data["name"]
+    employee_name = users_data.get("name")
     export_to_json(user_id, employee_name, todos_data)
