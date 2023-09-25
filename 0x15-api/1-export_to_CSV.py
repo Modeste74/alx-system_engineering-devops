@@ -12,7 +12,7 @@ def export_to_csv(user_id, user_name, tasks):
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
         for task in tasks:
             writer.writerow(
-                [user_id, user_name, task["completed"], task["title"]])
+                [user_id, user_name, task.get("completed"), task.get("title")])
 
 
 if __name__ == "__main__":
@@ -24,6 +24,6 @@ if __name__ == "__main__":
     todos_response = requests.get(todos_url)
     users_data = user_response.json()
     todos_data = todos_response.json()
-    employee_name = users_data["name"]
+    employee_name = users_data.get("name")
     total_tasks = len(todos_data)
     export_to_csv(user_id, employee_name, todos_data)
