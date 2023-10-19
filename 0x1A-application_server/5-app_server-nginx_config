@@ -1,0 +1,38 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By 267457-web-01;
+    root /var/www/html;
+    index index.html index.nginx-debian.html;
+    server_name _;
+
+    location /airbnb-onepage/ {
+        proxy_pass http://localhost:5000;
+    }
+    location /airbnb-dynamic/ {
+        proxy_pass http://localhost:5001/;
+    }
+    location /api/ {
+        proxy_pass http://localhost:5002;
+    }
+    location / {
+        proxy_pass http://localhost:5003/2-hbnb;
+    }
+    location /static/ {
+        alias /home/ubuntu/alx-project/AirBnB_clone_v4/web_dynamic/static/;
+    }
+    location /hbnb_static {
+        alias /data/web_static/current;
+        index index.html index.nginx-debian.html;
+    }
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/;
+    }
+
+    error_page 404 /error_404.html;
+#    location / {
+#        root /var/www/html;
+#        internal;
+#    }
+}
